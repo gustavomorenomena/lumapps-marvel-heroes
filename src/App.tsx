@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { RefObject, KeyboardEvent } from 'react';
 import './App.scss';
+import { CharactersService } from './services';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  searchInputRef: RefObject<HTMLInputElement>;
+
+  constructor(props: any) {
+    super(props);
+    this.searchInputRef = React.createRef();
+
+    this.handleKeyPressOnSearchInput = this.handleKeyPressOnSearchInput.bind(this);
+  }
+
+  componentDidMount(): void {
+    this.searchInputRef?.current?.focus();
+  }
+
+  handleKeyPressOnSearchInput(event: KeyboardEvent): void {
+    if ( ! event || ! event.key || event.key != 'Enter' ) {
+      return;
+    }
+
+    CharactersService.find().then(result => {
+      console.log(result);
+    });
+  }
+
+  render() {
+    return (
+      <div className="container mt-3">
+        <input type="text"
+          ref={this.searchInputRef}
+          onKeyPress={this.handleKeyPressOnSearchInput}/>
+      </div>
+    );
+  }
 }
 
 export default App;
