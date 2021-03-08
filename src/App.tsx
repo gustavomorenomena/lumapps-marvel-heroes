@@ -8,7 +8,9 @@ class App extends React.Component<{}, {
   searchTerm: string,
   characters: Character[],
   showFetchMoreResults: boolean,
-  searchOffset?: number
+  searchOffset?: number,
+  loading: boolean,
+  noResults: boolean,
 }> {
   searchInputRef: RefObject<HTMLInputElement>;
 
@@ -19,6 +21,8 @@ class App extends React.Component<{}, {
       searchTerm: '',
       characters: [],
       showFetchMoreResults: false,
+      loading: false,
+      noResults: false,
     }
 
     this.searchInputRef = React.createRef();
@@ -43,21 +47,36 @@ class App extends React.Component<{}, {
       return;
     }
 
+    this.setState({
+      loading: true,
+      noResults: false,
+    });
+
     CharactersService.find(this.state.searchTerm).then(result => {
+      if (result.results.length === 0) {
+        return this.setState({
+          noResults: true
+        });
+      }
       this.setState({
         characters: result.results,
         showFetchMoreResults: result.offset + result.results.length < result.total,
         searchOffset: result.results.length,
+        loading: false
       });
     });
   }
 
   handleClickFetchMoreResults(): void {
+    this.setState({
+      loading: true,
+    });
     CharactersService.find(this.state.searchTerm, this.state.searchOffset).then(result => {
       this.setState({
         characters: [...this.state.characters, ...result.results],
         showFetchMoreResults: result.offset + result.results.length < result.total,
         searchOffset: this.state.characters.length + result.results.length,
+        loading: false
       });
     });
   }
@@ -70,7 +89,7 @@ class App extends React.Component<{}, {
           onChange={this.handleSearchInputChange}
           onKeyPress={this.handleKeyPressOnSearchInput}/>
 
-        <div className="results mx-auto my-3">
+        {!this.state.noResults? <div className="results mx-auto my-3">
           <div className="row">
             {this.state.characters.map(character => {
               return (
@@ -81,15 +100,18 @@ class App extends React.Component<{}, {
             })}
           </div>
 
-          {
-            this.state.showFetchMoreResults ?
-            <div className="text-center mt-2">
-              <button className="btn btn-primary"
-                onClick={this.handleClickFetchMoreResults}>More results</button>
-            </div>
-            : null
-          }
-        </div>
+          <div className="text-center mt-2">
+            {this.state.loading?
+            <div className="spinner-border" role="status">
+              <span className="sr-only">Loading...</span>
+            </div> : this.state.showFetchMoreResults &&
+            <button className="btn btn-primary" onClick={this.handleClickFetchMoreResults}>
+                More results
+            </button>}
+          </div>
+        </div> : <div className="alert alert-primary mt-2" role="alert">
+          No results were found
+        </div>}
       </div>
     );
   }
