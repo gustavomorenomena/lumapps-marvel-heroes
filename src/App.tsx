@@ -6,7 +6,9 @@ import { CharacterView } from './characters';
 
 class App extends React.Component<{}, {
   searchTerm: string,
-  characters: Character[]
+  characters: Character[],
+  showFetchMoreResults: boolean,
+  searchOffset?: number
 }> {
   searchInputRef: RefObject<HTMLInputElement>;
 
@@ -16,11 +18,13 @@ class App extends React.Component<{}, {
     this.state = {
       searchTerm: '',
       characters: [],
+      showFetchMoreResults: false,
     }
 
     this.searchInputRef = React.createRef();
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleKeyPressOnSearchInput = this.handleKeyPressOnSearchInput.bind(this);
+    this.handleClickFetchMoreResults = this.handleClickFetchMoreResults.bind(this);
   }
 
   componentDidMount(): void {
@@ -41,8 +45,20 @@ class App extends React.Component<{}, {
 
     CharactersService.find(this.state.searchTerm).then(result => {
       this.setState({
-        characters: [...this.state.characters,...result.results]
-      })
+        characters: result.results,
+        showFetchMoreResults: result.offset + result.results.length < result.total,
+        searchOffset: result.results.length,
+      });
+    });
+  }
+
+  handleClickFetchMoreResults(): void {
+    CharactersService.find(this.state.searchTerm, this.state.searchOffset).then(result => {
+      this.setState({
+        characters: [...this.state.characters, ...result.results],
+        showFetchMoreResults: result.offset + result.results.length < result.total,
+        searchOffset: this.state.characters.length + result.results.length,
+      });
     });
   }
 
@@ -58,12 +74,21 @@ class App extends React.Component<{}, {
           <div className="row">
             {this.state.characters.map(character => {
               return (
-                <div className="col-6">
+                <div className="col-sm-6 mb-1">
                   <CharacterView key={character.id} character={character}></CharacterView>
                 </div>
               );
             })}
           </div>
+
+          {
+            this.state.showFetchMoreResults ?
+            <div className="text-center mt-2">
+              <button className="btn btn-primary"
+                onClick={this.handleClickFetchMoreResults}>More results</button>
+            </div>
+            : null
+          }
         </div>
       </div>
     );
