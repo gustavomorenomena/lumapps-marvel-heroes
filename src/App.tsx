@@ -49,14 +49,22 @@ class App extends React.Component<{}, {
   render() {
     return (
       <div className="container mt-3">
-        <input type="text"
+        <input type="text" className="d-block mx-auto"
           ref={this.searchInputRef}
           onChange={this.handleSearchInputChange}
           onKeyPress={this.handleKeyPressOnSearchInput}/>
 
-        {this.state.characters.map(character => {
-          return <CharacterView key={character.id} character={character}></CharacterView>;
-        })}
+        <div className="results mx-auto my-3">
+          <div className="row">
+            {this.state.characters.map(character => {
+              return (
+                <div className="col-6">
+                  <CharacterView key={character.id} character={character}></CharacterView>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     );
   }
