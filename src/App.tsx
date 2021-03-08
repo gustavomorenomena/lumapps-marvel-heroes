@@ -1,9 +1,12 @@
 import React, { RefObject, KeyboardEvent } from 'react';
 import './App.scss';
+import { Character } from './models';
 import { CharactersService } from './services';
+import { CharacterView } from './characters';
 
 class App extends React.Component<{}, {
   searchTerm: string,
+  characters: Character[]
 }> {
   searchInputRef: RefObject<HTMLInputElement>;
 
@@ -12,6 +15,7 @@ class App extends React.Component<{}, {
 
     this.state = {
       searchTerm: '',
+      characters: [],
     }
 
     this.searchInputRef = React.createRef();
@@ -36,7 +40,9 @@ class App extends React.Component<{}, {
     }
 
     CharactersService.find(this.state.searchTerm).then(result => {
-      console.log(result);
+      this.setState({
+        characters: [...this.state.characters,...result.results]
+      })
     });
   }
 
@@ -47,6 +53,10 @@ class App extends React.Component<{}, {
           ref={this.searchInputRef}
           onChange={this.handleSearchInputChange}
           onKeyPress={this.handleKeyPressOnSearchInput}/>
+
+        {this.state.characters.map(character => {
+          return <CharacterView key={character.id} character={character}></CharacterView>;
+        })}
       </div>
     );
   }
