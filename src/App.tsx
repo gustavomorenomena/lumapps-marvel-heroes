@@ -156,7 +156,8 @@ class App extends React.Component<{}, {
         <input type="text" className="d-block mx-auto"
           ref={this.searchInputRef}
           onChange={this.handleSearchInputChange}
-          onKeyPress={this.handleKeyPressOnSearchInput}/>
+          onKeyPress={this.handleKeyPressOnSearchInput}
+          disabled={this.state.loading}/>
         {renderResults()}
       </div>
     );
