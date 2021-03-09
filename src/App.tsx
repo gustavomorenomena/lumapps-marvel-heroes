@@ -60,7 +60,8 @@ class App extends React.Component<{}, {
     CharactersService.find(this.state.searchTerm).then(result => {
       if (result.results.length === 0) {
         return this.setState({
-          noResults: true
+          noResults: true,
+          characters: []
         });
       }
       this.setState({
