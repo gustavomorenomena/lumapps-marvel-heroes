@@ -127,15 +127,13 @@ class App extends React.Component<{}, {
 
       return (
         <div className="results mx-auto my-3">
-          <div className="row">
-            {this.state.characters.map(character => {
-              return (
-                <div key={character.id} className="col-sm-6 mb-1">
-                  <CharacterCard character={character}></CharacterCard>
-                </div>
-              );
-            })}
-          </div>
+          {this.state.characters.map(character => {
+            return (
+              <div key={character.id}>
+              <CharacterCard character={character}></CharacterCard>
+              </div>
+            );
+          })}
 
           <div className="text-center mt-2">
             {this.state.loading?

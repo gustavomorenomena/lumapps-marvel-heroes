@@ -21,13 +21,13 @@ export class CharacterCard extends React.Component<{
 
   render() {
     return (
-      <div className="card">
-        <img className="card-img-top" src={this.getCharacterThumbnail()}></img>
-        <div className="card-body">
-          <h5 className="card-title">{this.props.character.name}</h5>
+      <div className="character-card mb-2">
+        <img src={this.getCharacterThumbnail()}></img>
+        <div className="character-info m-2">
+          <h5>{this.props.character.name}</h5>
           {
-            this.props.character.description ?
-            <p className="card-text">{this.props.character.description}</p> : ''
+            this.props.character.description &&
+            <p className="card-text">{this.props.character.description}</p>
           }
         </div>
       </div>
