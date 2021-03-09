@@ -2,7 +2,7 @@ import React, { RefObject, KeyboardEvent, ReactElement } from 'react';
 import './App.scss';
 import { Character } from './models';
 import { CharactersService } from './services';
-import { CharacterView } from './characters';
+import { CharacterCard } from './components';
 
 const errors = {
   timeout: 'Request couldn\'t be completed. Please try again.'
@@ -131,7 +131,7 @@ class App extends React.Component<{}, {
             {this.state.characters.map(character => {
               return (
                 <div key={character.id} className="col-sm-6 mb-1">
-                  <CharacterView character={character}></CharacterView>
+                  <CharacterCard character={character}></CharacterCard>
                 </div>
               );
             })}

@@ -1,7 +1,7 @@
 import React from "react";
-import { Character } from "../models";
+import { Character } from "../../models";
 
-export class CharacterView extends React.Component<{
+export class CharacterCard extends React.Component<{
   character: Character
 }, {}> {
   constructor(props: any) {
