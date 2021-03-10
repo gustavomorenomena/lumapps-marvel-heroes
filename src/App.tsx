@@ -4,6 +4,9 @@ import { Character } from './models';
 import { CharactersService } from './services';
 import { CharacterCard } from './components';
 
+import { Provider } from 'react-redux';
+import store from './redux/store';
+
 const errors = {
   timeout: 'Request couldn\'t be completed. Please try again.'
 }
@@ -151,14 +154,16 @@ class App extends React.Component<{}, {
     }
 
     return (
-      <div className="container mt-3">
-        <input type="text" className="d-block mx-auto"
-          ref={this.searchInputRef}
-          onChange={this.handleSearchInputChange}
-          onKeyPress={this.handleKeyPressOnSearchInput}
-          disabled={this.state.loading}/>
-        {renderResults()}
-      </div>
+      <Provider store={store}>
+        <div className="container mt-3">
+          <input type="text" className="d-block mx-auto"
+            ref={this.searchInputRef}
+            onChange={this.handleSearchInputChange}
+            onKeyPress={this.handleKeyPressOnSearchInput}
+            disabled={this.state.loading}/>
+          {renderResults()}
+        </div>
+      </Provider>
     );
   }
 }
