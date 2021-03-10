@@ -2,7 +2,7 @@ import React, { RefObject, KeyboardEvent, ReactElement } from 'react';
 import './App.scss';
 import { Character } from './models';
 import { CharactersService } from './services';
-import { CharacterCard } from './components';
+import { CharacterCard, SearchBox } from './components';
 
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -156,11 +156,7 @@ class App extends React.Component<{}, {
     return (
       <Provider store={store}>
         <div className="container mt-3">
-          <input type="text" className="d-block mx-auto"
-            ref={this.searchInputRef}
-            onChange={this.handleSearchInputChange}
-            onKeyPress={this.handleKeyPressOnSearchInput}
-            disabled={this.state.loading}/>
+          <SearchBox></SearchBox>
           {renderResults()}
         </div>
       </Provider>
