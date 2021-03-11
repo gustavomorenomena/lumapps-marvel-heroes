@@ -1,6 +1,9 @@
 import React, { KeyboardEvent, RefObject } from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { State, StoreSelectors, StoreActions } from '../../redux';
+
+type PropsFromRedux = ConnectedProps<typeof SearchBox>
+
 class SearchBoxClass extends React.Component <any, {
   searchTerm: string,
 }> {
