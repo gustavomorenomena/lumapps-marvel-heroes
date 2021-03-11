@@ -1,7 +1,6 @@
-import React, { RefObject, KeyboardEvent, ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import './App.scss';
 import { Character } from './models';
-import { CharactersService } from './services';
 import { CharacterCard, SearchBox } from './components';
 
 import { Provider } from 'react-redux';
@@ -12,7 +11,6 @@ const errors = {
 }
 
 class App extends React.Component<{}, {
-  searchTerm: string,
   characters: Character[],
   showFetchMoreResults: boolean,
   searchOffset?: number,
@@ -20,34 +18,19 @@ class App extends React.Component<{}, {
   noResults: boolean,
   error?: string,
 }> {
-  searchInputRef: RefObject<HTMLInputElement>;
 
   constructor(props: any) {
     super(props);
 
     this.state = {
-      searchTerm: '',
       characters: [],
       showFetchMoreResults: false,
       loading: false,
       noResults: false,
     }
 
-    this.searchInputRef = React.createRef();
-    this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleKeyPressOnSearchInput = this.handleKeyPressOnSearchInput.bind(this);
     this.handleClickFetchMoreResults = this.handleClickFetchMoreResults.bind(this);
-  }
-
-  componentDidMount(): void {
-    this.searchInputRef?.current?.focus();
-  }
-
-  handleSearchInputChange(event: any): void {
-    if ( ! event.target ) {
-      return;
-    }
-    this.setState({searchTerm: event.target.value})
   }
 
   handleKeyPressOnSearchInput(event: KeyboardEvent): void {
@@ -60,46 +43,46 @@ class App extends React.Component<{}, {
       noResults: false,
     });
 
-    CharactersService.find(this.state.searchTerm).then(result => {
-      if (result.results.length === 0) {
-        return this.setState({
-          noResults: true,
-          characters: []
-        });
-      }
-      this.setState({
-        characters: result.results,
-        showFetchMoreResults: result.offset + result.results.length < result.total,
-        searchOffset: result.results.length,
-        loading: false,
-        error: undefined,
-      });
-    }, () => {
-      this.setState({
-        loading: false,
-        error: errors.timeout
-      });
-    });
+    // CharactersService.find(this.state.searchTerm).then(result => {
+    //   if (result.results.length === 0) {
+    //     return this.setState({
+    //       noResults: true,
+    //       characters: []
+    //     });
+    //   }
+    //   this.setState({
+    //     characters: result.results,
+    //     showFetchMoreResults: result.offset + result.results.length < result.total,
+    //     searchOffset: result.results.length,
+    //     loading: false,
+    //     error: undefined,
+    //   });
+    // }, () => {
+    //   this.setState({
+    //     loading: false,
+    //     error: errors.timeout
+    //   });
+    // });
   }
 
   handleClickFetchMoreResults(): void {
     this.setState({
       loading: true,
     });
-    CharactersService.find(this.state.searchTerm, this.state.searchOffset).then(result => {
-      this.setState({
-        characters: [...this.state.characters, ...result.results],
-        showFetchMoreResults: result.offset + result.results.length < result.total,
-        searchOffset: this.state.characters.length + result.results.length,
-        loading: false,
-        error: undefined
-      });
-    }, () => {
-      this.setState({
-        error: errors.timeout,
-        loading: false
-      });
-    });
+    // CharactersService.find(this.state.searchTerm, this.state.searchOffset).then(result => {
+    //   this.setState({
+    //     characters: [...this.state.characters, ...result.results],
+    //     showFetchMoreResults: result.offset + result.results.length < result.total,
+    //     searchOffset: this.state.characters.length + result.results.length,
+    //     loading: false,
+    //     error: undefined
+    //   });
+    // }, () => {
+    //   this.setState({
+    //     error: errors.timeout,
+    //     loading: false
+    //   });
+    // });
   }
 
   render() {
@@ -156,7 +139,7 @@ class App extends React.Component<{}, {
     return (
       <Provider store={store}>
         <div className="container mt-3">
-          <SearchBox></SearchBox>
+          <SearchBox/>
           {renderResults()}
         </div>
       </Provider>
