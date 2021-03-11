@@ -8,5 +8,7 @@ export default function (state: State = initialState, action: {type: ActionTypes
         ...state,
         loading: action.payload
       };
+    default:
+      return state;
   }
 }
