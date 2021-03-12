@@ -31,6 +31,9 @@ class CharacterResultsClass extends React.Component<Props, {}> {
   }
 
   render() {
+    const showFetchMoreResults = this.props.characters && this.props.total
+      && this.props.characters.length < this.props.total;
+
     if (this.props.noResults) {
       return (
         <div className="alert alert-primary mt-2" role="alert">
@@ -39,14 +42,25 @@ class CharacterResultsClass extends React.Component<Props, {}> {
       );
     }
     return (
-      <div className="results mx-auto my-3">
-        {this.props.characters.map(character => {
-          return (
-            <div key={character.id}>
-            <CharacterCard character={character}></CharacterCard>
-            </div>
-          );
-        })}
+      <div>
+        <div className="results mx-auto my-3">
+          {this.props.characters.map(character => {
+            return (
+              <div key={character.id}>
+              <CharacterCard character={character}></CharacterCard>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="text-center mt-2">
+          {
+            showFetchMoreResults &&
+            <button className="btn btn-primary">
+              More results
+            </button>
+          }
+        </div>
       </div>
     )
   }
