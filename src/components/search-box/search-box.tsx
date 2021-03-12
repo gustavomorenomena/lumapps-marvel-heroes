@@ -1,6 +1,7 @@
 import React, { KeyboardEvent, RefObject } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { State, StoreSelectors, StoreActions } from '../../redux';
+import { CharactersService } from '../../services';
 
 const mapStateToProps = (state: State) => ({
   loading: StoreSelectors.selectLoading(state)
@@ -49,6 +50,11 @@ class SearchBoxClass extends React.Component <Props, {
 
     this.props.setLoading(true);
 
+    CharactersService.find(this.state.searchTerm).then(result => {
+      console.log(result);
+    }).finally(() => {
+      this.props.setLoading(false);
+    });
     // CharactersService.find(this.state.searchTerm).then(result => {
     //   if (result.results.length === 0) {
     //     return this.setState({
@@ -72,7 +78,6 @@ class SearchBoxClass extends React.Component <Props, {
   }
 
   render() {
-    console.log(this.props.loading);
     return (
       <input type="text" className="d-block mx-auto"
         ref={this.searchInputRef}
