@@ -9,7 +9,7 @@ const setLoading: (value: boolean) => {type: ActionTypes, payload: boolean} = (v
   type: ActionTypes.SET_LOADING,
   payload: value,
 });
-interface SetResultsPayload {characters: Character[], total: number}
+export interface SetResultsPayload {characters: Character[], total: number}
 const setResults: (results: SetResultsPayload) => {type: ActionTypes, payload: SetResultsPayload} = (results) => ({
   type: ActionTypes.SET_RESULTS,
   payload: results

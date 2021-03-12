@@ -1,4 +1,4 @@
-import { ActionTypes } from "./actions";
+import { ActionTypes, SetResultsPayload } from "./actions";
 import { State, initialState } from "./state";
 
 export default function (state: State = initialState, action: {type: ActionTypes, payload: any}): State {
@@ -8,6 +8,12 @@ export default function (state: State = initialState, action: {type: ActionTypes
         ...state,
         loading: action.payload
       };
+    case ActionTypes.SET_RESULTS:
+      const payload: SetResultsPayload = action.payload;
+      return {
+        ...state,
+        ...payload,
+      }
     default:
       return state;
   }
