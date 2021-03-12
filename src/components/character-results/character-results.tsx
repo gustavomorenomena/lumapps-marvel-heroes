@@ -1,7 +1,17 @@
 import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { State } from '../../redux';
 
-export class CharacterResults extends React.Component {
-  constructor(props: any) {
+const mapStateToProps = (state: State) => ({});
+
+const connector = connect(mapStateToProps, {});
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux & {};
+
+class CharacterResultsClass extends React.Component<Props, {}> {
+  constructor(props: Props) {
     super(props);
   }
 
@@ -11,3 +21,5 @@ export class CharacterResults extends React.Component {
     )
   }
 }
+
+export const CharacterResults = connector(CharacterResultsClass);
