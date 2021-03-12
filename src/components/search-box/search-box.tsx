@@ -2,14 +2,24 @@ import React, { KeyboardEvent, RefObject } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { State, StoreSelectors, StoreActions } from '../../redux';
 
-type PropsFromRedux = ConnectedProps<typeof SearchBox>
+const mapStateToProps = (state: State) => ({
+  loading: StoreSelectors.selectLoading(state)
+})
 
-class SearchBoxClass extends React.Component <any, {
+const connector = connect(mapStateToProps, {
+  setLoading: StoreActions.setLoading
+});
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux & {};
+
+class SearchBoxClass extends React.Component <Props, {
   searchTerm: string,
 }> {
   searchInputRef: RefObject<HTMLInputElement>;
 
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       searchTerm: ''
@@ -80,10 +90,4 @@ class SearchBoxClass extends React.Component <any, {
   }
 }
 
-const mapStateToProps = (state: State) => ({
-  loading: StoreSelectors.selectLoading(state)
-})
-
-export const SearchBox = connect(mapStateToProps, {
-  setLoading: StoreActions.setLoading
-})(SearchBoxClass);
+export const SearchBox = connector(SearchBoxClass);
