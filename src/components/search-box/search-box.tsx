@@ -52,7 +52,7 @@ class SearchBoxClass extends React.Component <Props, {
     this.props.setLoading(true);
 
     CharactersService.find(this.state.searchTerm).then(result => {
-      if ( ! result.results || typeof result.total == 'number' ) {
+      if ( ! result.results || typeof result.total != 'number' ) {
         return;
       }
       this.props.setResults({
