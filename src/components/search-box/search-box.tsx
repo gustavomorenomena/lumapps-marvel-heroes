@@ -8,7 +8,8 @@ const mapStateToProps = (state: State) => ({
 })
 
 const connector = connect(mapStateToProps, {
-  setLoading: StoreActions.setLoading
+  setLoading: StoreActions.setLoading,
+  setResults: StoreActions.setResults,
 });
 
 type PropsFromRedux = ConnectedProps<typeof connector>
@@ -51,30 +52,16 @@ class SearchBoxClass extends React.Component <Props, {
     this.props.setLoading(true);
 
     CharactersService.find(this.state.searchTerm).then(result => {
-      console.log(result);
+      if ( ! result.results || typeof result.total == 'number' ) {
+        return;
+      }
+      this.props.setResults({
+        characters: result.results,
+        total: result.total,
+      });
     }).finally(() => {
       this.props.setLoading(false);
     });
-    // CharactersService.find(this.state.searchTerm).then(result => {
-    //   if (result.results.length === 0) {
-    //     return this.setState({
-    //       noResults: true,
-    //       characters: []
-    //     });
-    //   }
-    //   this.setState({
-    //     characters: result.results,
-    //     showFetchMoreResults: result.offset + result.results.length < result.total,
-    //     searchOffset: result.results.length,
-    //     loading: false,
-    //     error: undefined,
-    //   });
-    // }, () => {
-    //   this.setState({
-    //     loading: false,
-    //     error: errors.timeout
-    //   });
-    // });
   }
 
   render() {
@@ -85,13 +72,6 @@ class SearchBoxClass extends React.Component <Props, {
         onKeyPress={this.handleKeyPressOnSearchInput}
         disabled={this.props.loading}/>
     )
-    // return (
-    //   <input type="text" className="d-block mx-auto"
-    //     ref={this.searchInputRef}
-    //     onChange={this.handleSearchInputChange}
-    //     onKeyPress={this.handleKeyPressOnSearchInput}
-    //     disabled={this.state.loading}/>
-    // )
   }
 }
 
