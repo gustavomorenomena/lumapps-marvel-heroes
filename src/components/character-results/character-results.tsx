@@ -1,8 +1,23 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { State } from '../../redux';
+import { State, StoreSelectors } from '../../redux';
+import { CharacterCard } from '../character-card/character-card';
 
-const mapStateToProps = (state: State) => ({});
+let isInit = true;
+
+const mapStateToProps = (state: State) => {
+  const characters = StoreSelectors.selectCharacters(state);
+  const total = StoreSelectors.selectTotal(state);
+  const noResults = ! isInit && ! characters.length;
+
+  isInit = false
+
+  return {
+    characters,
+    total,
+    noResults,
+  }
+}
 
 const connector = connect(mapStateToProps, {});
 
@@ -16,8 +31,23 @@ class CharacterResultsClass extends React.Component<Props, {}> {
   }
 
   render() {
+    if (this.props.noResults) {
+      return (
+        <div className="alert alert-primary mt-2" role="alert">
+          No results were found
+        </div>
+      );
+    }
     return (
-      <p>Character results !</p>
+      <div className="results mx-auto my-3">
+        {this.props.characters.map(character => {
+          return (
+            <div key={character.id}>
+            <CharacterCard character={character}></CharacterCard>
+            </div>
+          );
+        })}
+      </div>
     )
   }
 }
