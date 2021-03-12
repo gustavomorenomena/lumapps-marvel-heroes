@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import './App.scss';
 import { Character } from './models';
-import { CharacterCard, SearchBox } from './components';
+import { CharacterCard, SearchBox, CharacterResults } from './components';
 
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -140,7 +140,7 @@ class App extends React.Component<{}, {
       <Provider store={store}>
         <div className="container mt-3">
           <SearchBox/>
-          {renderResults()}
+          <CharacterResults/>
         </div>
       </Provider>
     );
