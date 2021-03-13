@@ -4,21 +4,10 @@ import { State, StoreActions, StoreSelectors } from '../../redux';
 import { CharactersService } from '../../services';
 import { CharacterCard } from '../character-card/character-card';
 
-let isInit = true;
-
-const mapStateToProps = (state: State) => {
-  const characters = StoreSelectors.selectCharacters(state);
-  const total = StoreSelectors.selectTotal(state);
-  const noResults = ! isInit && ! characters.length;
-
-  isInit = false
-
-  return {
-    characters,
-    total,
-    noResults,
-  }
-}
+const mapStateToProps = (state: State) => ({
+  characters: StoreSelectors.selectCharacters(state),
+  total: StoreSelectors.selectTotal(state),
+});
 
 const connector = connect(mapStateToProps, {
   addCharacters: StoreActions.addCharacters
@@ -42,6 +31,10 @@ class CharacterResultsClass extends React.Component<Props, {
   }
 
   handleClickFetchMoreResults(): void {
+    if ( ! this.props.characters ) {
+      return;
+    }
+
     this.setState({
       loading: true,
     });
@@ -59,13 +52,18 @@ class CharacterResultsClass extends React.Component<Props, {
     const showFetchMoreResults = this.props.characters && this.props.total
       && this.props.characters.length < this.props.total;
 
-    if (this.props.noResults) {
+    if ( ! this.props.characters ) {
+      return null;
+    }
+
+    if ( ! this.props.characters.length ) {
       return (
         <div className="alert alert-primary mt-2" role="alert">
           No results were found
         </div>
       );
     }
+
     return (
       <div>
         <div className="results mx-auto my-3">

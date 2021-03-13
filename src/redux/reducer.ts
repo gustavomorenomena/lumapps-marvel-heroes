@@ -16,6 +16,10 @@ export default function (state: State = initialState, action: {type: ActionTypes
         ...setResultsPayload,
       }
     case ActionTypes.ADD_CHARACTERS:
+      if ( ! state.characters ) {
+        return state;
+      }
+
       const characters: Character[] = action.payload;
       return {
         ...state,
