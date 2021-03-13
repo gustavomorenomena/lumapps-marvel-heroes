@@ -13,9 +13,7 @@ const connector = connect(mapStateToProps, {
   addCharacters: StoreActions.addCharacters
 });
 
-type PropsFromRedux = ConnectedProps<typeof connector>
-
-type Props = PropsFromRedux & {};
+type Props = ConnectedProps<typeof connector>;
 
 class CharacterResultsClass extends React.Component<Props, {
   loading: boolean,
