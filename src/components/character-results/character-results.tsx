@@ -81,12 +81,12 @@ class CharacterResultsClass extends React.Component<Props, {
         <div className="text-center mt-2">
           {
             showFetchMoreResults &&
-            !this.state.loading ?
+            (!this.state.loading ?
             <button className="btn btn-primary" onClick={this.handleClickFetchMoreResults}>
               More results
             </button>
             :
-            <Spinner />
+            <Spinner />)
           }
         </div>
       </div>
