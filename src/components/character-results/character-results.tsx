@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { State, StoreSelectors } from '../../redux';
+import { State, StoreActions, StoreSelectors } from '../../redux';
+import { CharactersService } from '../../services';
 import { CharacterCard } from '../character-card/character-card';
 
 let isInit = true;
@@ -19,15 +20,39 @@ const mapStateToProps = (state: State) => {
   }
 }
 
-const connector = connect(mapStateToProps, {});
+const connector = connect(mapStateToProps, {
+  addCharacters: StoreActions.addCharacters
+});
 
 type PropsFromRedux = ConnectedProps<typeof connector>
 
 type Props = PropsFromRedux & {};
 
-class CharacterResultsClass extends React.Component<Props, {}> {
+class CharacterResultsClass extends React.Component<Props, {
+  loading: boolean,
+}> {
   constructor(props: Props) {
     super(props);
+
+    this.state = {
+      loading: false,
+    }
+
+    this.handleClickFetchMoreResults = this.handleClickFetchMoreResults.bind(this);
+  }
+
+  handleClickFetchMoreResults(): void {
+    this.setState({
+      loading: true,
+    });
+
+    CharactersService.fetchMoreResults(this.props.characters.length).then(characters => {
+      this.props.addCharacters(characters);
+    }).finally(() => {
+      this.setState({
+        loading: false
+      })
+    });
   }
 
   render() {
@@ -47,7 +72,7 @@ class CharacterResultsClass extends React.Component<Props, {}> {
           {this.props.characters.map(character => {
             return (
               <div key={character.id}>
-              <CharacterCard character={character}></CharacterCard>
+              <CharacterCard character={character}/>
               </div>
             );
           })}
@@ -56,9 +81,14 @@ class CharacterResultsClass extends React.Component<Props, {}> {
         <div className="text-center mt-2">
           {
             showFetchMoreResults &&
-            <button className="btn btn-primary">
+            !this.state.loading ?
+            <button className="btn btn-primary" onClick={this.handleClickFetchMoreResults}>
               More results
             </button>
+            :
+            <div className="spinner-border" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
           }
         </div>
       </div>

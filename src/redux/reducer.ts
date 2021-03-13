@@ -1,3 +1,4 @@
+import { Character } from "../models";
 import { ActionTypes, SetResultsPayload } from "./actions";
 import { State, initialState } from "./state";
 
@@ -9,10 +10,16 @@ export default function (state: State = initialState, action: {type: ActionTypes
         loading: action.payload
       };
     case ActionTypes.SET_RESULTS:
-      const payload: SetResultsPayload = action.payload;
+      const setResultsPayload: SetResultsPayload = action.payload;
       return {
         ...state,
-        ...payload,
+        ...setResultsPayload,
+      }
+    case ActionTypes.ADD_CHARACTERS:
+      const characters: Character[] = action.payload;
+      return {
+        ...state,
+        characters: [...state.characters, ...characters]
       }
     default:
       return state;
