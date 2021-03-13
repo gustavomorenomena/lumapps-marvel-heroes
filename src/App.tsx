@@ -2,25 +2,40 @@ import React from 'react';
 import './App.scss';
 import { SearchBox, CharacterResults } from './components';
 
-import { Provider } from 'react-redux';
+import { connect, ConnectedProps, Provider } from 'react-redux';
 import store from './redux/store';
+import { State, StoreSelectors } from './redux';
 
-class App extends React.Component<{}, {}> {
+const mapStateToProps = (state: State) => ({
+  loading: StoreSelectors.selectLoading(state),
+  error: StoreSelectors.selectError(state),
+});
 
-  constructor(props: any) {
+const connector = connect(mapStateToProps);
+type Props = ConnectedProps<typeof connector>;
+
+class AppClass extends React.Component<Props, {}> {
+
+  constructor(props: Props) {
     super(props);
   }
 
   render() {
     return (
-      <Provider store={store}>
-        <div className="container mt-3">
-          <SearchBox/>
-          <CharacterResults/>
-        </div>
-      </Provider>
+      <div className="container mt-3">
+        <SearchBox/>
+        <CharacterResults/>
+      </div>
     );
   }
 }
 
-export default App;
+const App = connector(AppClass);
+
+export const AppWithStore = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
