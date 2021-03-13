@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import { SearchBox, CharacterResults } from './components';
+import { SearchBox, CharacterResults, Spinner } from './components';
 
 import { connect, ConnectedProps, Provider } from 'react-redux';
 import store from './redux/store';
@@ -24,7 +24,14 @@ class AppClass extends React.Component<Props, {}> {
     return (
       <div className="container mt-3">
         <SearchBox/>
-        <CharacterResults/>
+        {
+          ! this.props.loading ?
+          <CharacterResults/>
+          :
+          <div className="text-center mt-3">
+            <Spinner/>
+          </div>
+        }
       </div>
     );
   }

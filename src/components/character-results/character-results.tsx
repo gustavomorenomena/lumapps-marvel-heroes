@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { State, StoreActions, StoreSelectors } from '../../redux';
 import { CharactersService } from '../../services';
 import { CharacterCard } from '../character-card/character-card';
+import { Spinner } from '../spinner/spinner';
 
 const mapStateToProps = (state: State) => ({
   characters: StoreSelectors.selectCharacters(state),
@@ -82,9 +83,7 @@ class CharacterResultsClass extends React.Component<Props, {
               More results
             </button>
             :
-            <div className="spinner-border" role="status">
-              <span className="sr-only">Loading...</span>
-            </div>
+            <Spinner />
           }
         </div>
       </div>
