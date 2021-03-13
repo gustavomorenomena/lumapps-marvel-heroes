@@ -3,6 +3,7 @@ import { Character } from "../models";
 export enum ActionTypes {
   SET_LOADING = 'SET_LOADING',
   SET_RESULTS = 'SET_RESULTS',
+  SET_ERROR = 'SET_ERROR',
   ADD_CHARACTERS = 'ADD_CHARACTERS',
 }
 
@@ -22,8 +23,14 @@ const addCharacters: (characters: Character[]) => {type: ActionTypes, payload: C
   payload: characters,
 })
 
+const setError: (error: string | undefined) => {type: ActionTypes, payload: string | undefined} = (error) => ({
+  type: ActionTypes.SET_ERROR,
+  payload: error,
+})
+
 export const StoreActions = {
   setLoading,
   setResults,
   addCharacters,
+  setError,
 }

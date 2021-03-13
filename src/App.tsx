@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import { SearchBox, CharacterResults, Spinner } from './components';
+import { SearchBox, CharacterResults, Spinner, Error } from './components';
 
 import { connect, ConnectedProps, Provider } from 'react-redux';
 import store from './redux/store';
@@ -8,7 +8,6 @@ import { State, StoreSelectors } from './redux';
 
 const mapStateToProps = (state: State) => ({
   loading: StoreSelectors.selectLoading(state),
-  error: StoreSelectors.selectError(state),
 });
 
 const connector = connect(mapStateToProps);
@@ -32,6 +31,7 @@ class AppClass extends React.Component<Props, {}> {
             <Spinner/>
           </div>
         }
+        <Error/>
       </div>
     );
   }

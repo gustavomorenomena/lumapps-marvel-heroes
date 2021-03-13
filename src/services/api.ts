@@ -14,4 +14,13 @@ Api.interceptors.response.use(response => {
   }
 
   return Promise.resolve(response.data);
-})
+}, (error) => {
+  console.error(error);
+  if (!error || typeof error === 'string' ) {
+    return Promise.reject(error);
+  }
+  if (error.message) {
+    return Promise.reject(error.message);
+  }
+  return Promise.reject(JSON.stringify(error));
+});

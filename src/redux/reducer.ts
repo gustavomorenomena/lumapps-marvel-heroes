@@ -14,6 +14,8 @@ export default function (state: State = initialState, action: {type: ActionTypes
       return {
         ...state,
         ...setResultsPayload,
+        error: undefined,
+        loading: false,
       }
     case ActionTypes.ADD_CHARACTERS:
       if ( ! state.characters ) {
@@ -23,7 +25,15 @@ export default function (state: State = initialState, action: {type: ActionTypes
       const characters: Character[] = action.payload;
       return {
         ...state,
-        characters: [...state.characters, ...characters]
+        characters: [...state.characters, ...characters],
+        error: undefined,
+        loading: false,
+      }
+    case ActionTypes.SET_ERROR:
+      const error: string | undefined = action.payload;
+      return {
+        ...state,
+        error
       }
     default:
       return state;

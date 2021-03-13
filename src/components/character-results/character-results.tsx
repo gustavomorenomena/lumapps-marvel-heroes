@@ -11,7 +11,8 @@ const mapStateToProps = (state: State) => ({
 });
 
 const connector = connect(mapStateToProps, {
-  addCharacters: StoreActions.addCharacters
+  addCharacters: StoreActions.addCharacters,
+  setError: StoreActions.setError,
 });
 
 type Props = ConnectedProps<typeof connector>;
@@ -40,6 +41,8 @@ class CharacterResultsClass extends React.Component<Props, {
 
     CharactersService.fetchMoreResults(this.props.characters.length).then(characters => {
       this.props.addCharacters(characters);
+    }, (err: string) => {
+      this.props.setError(err);
     }).finally(() => {
       this.setState({
         loading: false

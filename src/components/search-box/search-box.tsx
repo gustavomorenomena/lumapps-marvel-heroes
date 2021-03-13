@@ -10,6 +10,7 @@ const mapStateToProps = (state: State) => ({
 const connector = connect(mapStateToProps, {
   setLoading: StoreActions.setLoading,
   setResults: StoreActions.setResults,
+  setError: StoreActions.setError,
 });
 
 type PropsFromRedux = ConnectedProps<typeof connector>
@@ -59,6 +60,8 @@ class SearchBoxClass extends React.Component <Props, {
         characters: result.results,
         total: result.total,
       });
+    }, err => {
+      this.props.setError(err);
     }).finally(() => {
       this.props.setLoading(false);
     });
