@@ -2,6 +2,8 @@ import React, { KeyboardEvent, RefObject } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { State, StoreSelectors, StoreActions } from '../../redux';
 import { CharactersService } from '../../services';
+import { History } from 'history';
+import { withRouter } from 'react-router';
 
 const mapStateToProps = (state: State) => ({
   loading: StoreSelectors.selectLoading(state)
@@ -15,7 +17,9 @@ const connector = connect(mapStateToProps, {
 
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-type Props = PropsFromRedux & {};
+type Props = PropsFromRedux & {
+  history: History
+};
 
 class SearchBoxClass extends React.Component <Props, {
   searchTerm: string,
@@ -60,6 +64,8 @@ class SearchBoxClass extends React.Component <Props, {
         characters: result.results,
         total: result.total,
       });
+
+      this.props.history.push('/');
     }, err => {
       this.props.setError(err);
     }).finally(() => {
@@ -73,9 +79,10 @@ class SearchBoxClass extends React.Component <Props, {
         ref={this.searchInputRef}
         onChange={this.handleSearchInputChange}
         onKeyPress={this.handleKeyPressOnSearchInput}
-        disabled={this.props.loading}/>
+        disabled={this.props.loading}
+        placeholder="Search your character"/>
     )
   }
 }
 
-export const SearchBox = connector(SearchBoxClass);
+export const SearchBox = withRouter(connector(SearchBoxClass));
