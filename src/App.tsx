@@ -6,6 +6,13 @@ import { connect, ConnectedProps, Provider } from 'react-redux';
 import store from './redux/store';
 import { State, StoreSelectors } from './redux';
 
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
+
 const mapStateToProps = (state: State) => ({
   loading: StoreSelectors.selectLoading(state),
 });
@@ -25,7 +32,14 @@ class AppClass extends React.Component<Props, {}> {
         <SearchBox/>
         {
           ! this.props.loading ?
-          <CharacterResults/>
+          <Router>
+            <Switch>
+              <Route path="/" exact>
+                <CharacterResults/>
+              </Route>
+              <Redirect to="/" />
+            </Switch>
+          </Router>
           :
           <div className="text-center mt-3">
             <Spinner/>
