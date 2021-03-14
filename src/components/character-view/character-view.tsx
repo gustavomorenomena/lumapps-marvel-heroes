@@ -14,7 +14,7 @@ class CharacterViewClass extends React.Component<Props> {
     return (
       <div>
         {
-          this.props.total &&
+          !!this.props.total &&
           <Link to="/" className="btn btn-link">Back to results</Link>
         }
         <p>Character view</p>
