@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Character } from "../../models";
 
 export class CharacterCard extends React.Component<{
@@ -29,6 +30,10 @@ export class CharacterCard extends React.Component<{
             this.props.character.description &&
             <p className="card-text">{this.props.character.description}</p>
           }
+          <Link to={`/${this.props.character.id}`}
+            className="btn btn-primary">
+            Details
+          </Link>
         </div>
       </div>
     )
