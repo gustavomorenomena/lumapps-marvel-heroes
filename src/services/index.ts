@@ -1,2 +1,2 @@
 export * from './api';
-export * from './charecters';
+export * from './characters';
