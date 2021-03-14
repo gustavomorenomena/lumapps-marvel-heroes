@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import { SearchBox, CharacterResults, Spinner, Error } from './components';
+import { SearchBox, CharacterResults, Spinner, Error, CharacterView } from './components';
 
 import { connect, ConnectedProps, Provider } from 'react-redux';
 import store from './redux/store';
@@ -36,6 +36,9 @@ class AppClass extends React.Component<Props, {}> {
             <Switch>
               <Route path="/" exact>
                 <CharacterResults/>
+              </Route>
+              <Route path="/:characterId">
+                <CharacterView></CharacterView>
               </Route>
               <Redirect to="/" />
             </Switch>
