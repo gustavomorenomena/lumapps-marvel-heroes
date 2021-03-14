@@ -28,11 +28,11 @@ class AppClass extends React.Component<Props, {}> {
 
   render() {
     return (
-      <div className="container mt-3">
-        <SearchBox/>
-        {
-          ! this.props.loading ?
-          <Router>
+      <Router>
+        <div className="container mt-3">
+          <SearchBox/>
+          {
+            ! this.props.loading ?
             <Switch>
               <Route path="/" exact>
                 <CharacterResults/>
@@ -42,14 +42,14 @@ class AppClass extends React.Component<Props, {}> {
               </Route>
               <Redirect to="/" />
             </Switch>
-          </Router>
-          :
-          <div className="text-center mt-3">
-            <Spinner/>
-          </div>
-        }
-        <Error/>
-      </div>
+            :
+            <div className="text-center mt-3">
+              <Spinner/>
+            </div>
+          }
+          <Error/>
+        </div>
+      </Router>
     );
   }
 }
