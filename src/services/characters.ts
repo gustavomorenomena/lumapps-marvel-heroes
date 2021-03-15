@@ -19,7 +19,7 @@ export const CharactersService = {
         offset: offset
       }
     }).then((response: any) => {
-      if ( ! response || response.code !== 200 || ! response.data ) {
+      if ( ! response.data ) {
         return Promise.reject('BAD_REQUEST');
       }
       return Promise.resolve(response.data);
