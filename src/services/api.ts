@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const Api = axios.create({
-  baseURL: 'https://gateway.marvel.com/v1/public/',
+  baseURL: process.env.REACT_APP_API_ENDPOINT,
   timeout: 1000,
   params: {
     apikey: process.env.REACT_APP_MARVEL_API_KEY
