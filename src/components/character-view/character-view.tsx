@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Character } from '../../models';
@@ -19,7 +19,7 @@ type Props = PropsFromRedux & {
   }
 };
 
-class CharacterViewClass extends React.Component<Props, {
+class CharacterViewClass extends Component<Props, {
   character?: Character
 }> {
   constructor(props: Props) {

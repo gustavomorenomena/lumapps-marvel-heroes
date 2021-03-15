@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { State, StoreActions, StoreSelectors } from '../../redux';
 import { CharactersService } from '../../services';
@@ -17,7 +17,7 @@ const connector = connect(mapStateToProps, {
 
 type Props = ConnectedProps<typeof connector>;
 
-class CharacterResultsClass extends React.Component<Props, {
+class CharacterResultsClass extends Component<Props, {
   loading: boolean,
 }> {
   constructor(props: Props) {

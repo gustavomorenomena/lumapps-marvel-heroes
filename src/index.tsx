@@ -1,4 +1,4 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import {AppWithStore} from './App';
@@ -6,9 +6,9 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <StrictMode>
     <AppWithStore />
-  </React.StrictMode>,
+  </StrictMode>,
   document.getElementById('root')
 );
 

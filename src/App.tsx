@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component } from 'react';
 import './App.scss';
 import { SearchBox, CharacterResults, Spinner, Error, CharacterView } from './components';
 
@@ -20,7 +20,7 @@ const mapStateToProps = (state: State) => ({
 const connector = connect(mapStateToProps);
 type Props = ConnectedProps<typeof connector>;
 
-class AppClass extends React.Component<Props, {}> {
+class AppClass extends Component<Props, {}> {
 
   constructor(props: Props) {
     super(props);

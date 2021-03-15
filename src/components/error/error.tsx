@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from 'react';
 import { connect, ConnectedProps } from "react-redux";
 import { State, StoreActions, StoreSelectors } from "../../redux";
 
@@ -10,7 +10,7 @@ const connector = connect(mapStateToProps, {
 });
 type Props = ConnectedProps<typeof connector>
 
-class ErrorClass extends React.Component<Props, {}> {
+class ErrorClass extends Component<Props, {}> {
   constructor(props: Props) {
     super(props);
 

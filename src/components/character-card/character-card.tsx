@@ -1,8 +1,8 @@
-import React from "react";
+import { Component } from "react";
 import { Link } from "react-router-dom";
 import { Character } from "../../models";
 
-export class CharacterCard extends React.Component<{
+export class CharacterCard extends Component<{
   character: Character
 }, {}> {
   constructor(props: any) {

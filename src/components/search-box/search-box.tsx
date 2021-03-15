@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, RefObject } from 'react';
+import { Component, KeyboardEvent, RefObject, createRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { State, StoreSelectors, StoreActions } from '../../redux';
 import { CharactersService } from '../../services';
@@ -21,7 +21,7 @@ type Props = PropsFromRedux & {
   history: History
 };
 
-class SearchBoxClass extends React.Component <Props, {
+class SearchBoxClass extends Component <Props, {
   searchTerm: string,
 }> {
   searchInputRef: RefObject<HTMLInputElement>;
@@ -32,7 +32,7 @@ class SearchBoxClass extends React.Component <Props, {
       searchTerm: ''
     }
 
-    this.searchInputRef = React.createRef();
+    this.searchInputRef = createRef();
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleKeyPressOnSearchInput = this.handleKeyPressOnSearchInput.bind(this);
